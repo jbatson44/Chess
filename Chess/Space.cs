@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace Chess
 {
+     /*********************************************************************
+     * 
+     *********************************************************************/
     class Space : Button
     {
         private Color color;
@@ -15,12 +18,20 @@ namespace Chess
         private Piece piece;
         private int row;
         private int col;
+
+        /*********************************************************************
+        * 
+        *********************************************************************/
         public Space(Color color, Piece piece)
         {
             this.BackColor = color;
             image = null;
             this.piece = piece;
         }
+
+        /*********************************************************************
+        * 
+        *********************************************************************/
         public void SetPiece(Piece piece)
         {
             this.piece = piece;
@@ -34,6 +45,9 @@ namespace Chess
                 
         }
 
+        /*********************************************************************
+        * 
+        *********************************************************************/
         public void ClearSpace()
         {
             image = null;

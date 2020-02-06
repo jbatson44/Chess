@@ -10,12 +10,19 @@ using System.Windows.Forms;
 
 namespace Chess
 {
+    /*********************************************************************
+     * 
+     *********************************************************************/
     public partial class Game : Form
     {
-        private int team;
+        private String team;
         private Space[,] board;
         private Piece selected;
-        public Game(int team)
+
+        /*********************************************************************
+         * 
+         *********************************************************************/
+        public Game(String team)
         {
             InitializeComponent();
 
@@ -23,6 +30,9 @@ namespace Chess
             CreateBoard();
         }
 
+        /*********************************************************************
+         * 
+         *********************************************************************/
         public void CreateBoard()
         {
             board = new Space[8, 8];
@@ -68,6 +78,9 @@ namespace Chess
             
         }
 
+        /*********************************************************************
+         * 
+         *********************************************************************/
         public void ButtonClick(object sender, MouseEventArgs e)
         {
             Space thisButton = ((Space)sender);
@@ -104,6 +117,9 @@ namespace Chess
             }
         }
 
+        /*********************************************************************
+         * 
+         *********************************************************************/
         public void ShowPossibleMoves()
         {
             for (int i = 0; i < selected.GetPossMoves().Count; i++)
@@ -114,6 +130,9 @@ namespace Chess
             }
         }
 
+        /*********************************************************************
+         * 
+         *********************************************************************/
         public bool IsPossible(int row, int col)
         {
             for (int i = 0; i < selected.GetPossMoves().Count; i++)
@@ -128,6 +147,9 @@ namespace Chess
 
         }
 
+        /*********************************************************************
+         * 
+         *********************************************************************/
         public void MoveTo(int fromR, int fromC, int toR, int toC)
         {
             board[fromR, fromC].SetPiece(null);
