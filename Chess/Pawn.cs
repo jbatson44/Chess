@@ -21,6 +21,18 @@ namespace Chess
             possMoves = new List<Pair>();
             pieceType = "Pawn";
             image = null;
+
+
+            if (team == "white")
+            {
+
+                textColor = Color.White;
+            }
+            else
+            {
+
+                textColor = Color.Black;
+            }
         }
 
         /*********************************************************************

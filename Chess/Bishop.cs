@@ -16,8 +16,20 @@ namespace Chess
         {
             this.team = team;
             possMoves = new List<Pair>();
-            pieceType = "Pawn";
+            pieceType = "Bishop";
             image = null;
+
+
+            if (team == "white")
+            {
+
+                textColor = Color.White;
+            }
+            else
+            {
+
+                textColor = Color.Black;
+            }
         }
 
         /*********************************************************************
