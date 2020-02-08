@@ -11,7 +11,8 @@ using System.Windows.Forms;
 namespace Chess
 {
     /*********************************************************************
-     * 
+     * Game
+     * This is our game form
      *********************************************************************/
     public partial class Game : Form
     {
@@ -20,7 +21,10 @@ namespace Chess
         private Piece selected;
 
         /*********************************************************************
-         * 
+         * NON-DEFAULT CONSTRUCTOR
+         * Parameters
+         *  team - the team the user chose
+         * Set the users team and call CreateBoard() to initialize the board
          *********************************************************************/
         public Game(String team)
         {
@@ -31,7 +35,8 @@ namespace Chess
         }
 
         /*********************************************************************
-         * 
+         * CreateBoard
+         * Here we set up the board and place the pieces in their original places
          *********************************************************************/
         public void CreateBoard()
         {
@@ -44,11 +49,11 @@ namespace Chess
                     Color color;
                     if (count % 2 == 0)
                     {
-                        color = Color.White;
+                        color = Color.Gray;
                     }
                     else
                     {
-                        color = Color.Gray;
+                        color = Color.Red;
                     }
                     
                     board[r, c] = new Space(color, null);
@@ -72,7 +77,7 @@ namespace Chess
             {
                 Pawn w = new Pawn("white");
                 board[i, 1].SetPiece(w);
-                Pawn b = new Pawn("Black");
+                Pawn b = new Pawn("black");
                 board[i, 6].SetPiece(b);
             }
             

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,17 +32,22 @@ namespace Chess
             if (team == "white")
             {
                 direction = 1;
+                textColor = Color.White;
             }
             else
             {
                 direction = -1;
+                textColor = Color.Black;
             }
 
-            SetSpaceValid(row, col + direction);
+            if (board[row, col + direction].GetPiece() == null)
+                SetSpaceValid(row, col + direction);
             if ((team == "white" && col == 1) || (team == "black" && col == 6))
                 SetSpaceValid(row, col + (direction * 2));
             
-            if ((ValidSpot(row + 1, col + direction)) && (board[row + 1, col + direction].GetPiece() != null))
+            if ((ValidSpot(row + 1, col + direction)) 
+                && (board[row + 1, col + direction].GetPiece() != null 
+                && board[row + 1, col + direction].GetPiece().GetTeam() != team))
             {
                 SetSpaceValid(row + 1, col + direction);
             }
@@ -51,17 +57,6 @@ namespace Chess
             }
         }
 
-        /*********************************************************************
-         * 
-         *********************************************************************/
-        public bool ValidSpot(int row, int col)
-        {
-            if (row >= 0 && row < 8 && col >= 0 && col < 8)
-            {
-                return true;
-            }
-            return false;
-        }
 
     }
 

@@ -60,6 +60,7 @@
             // startButton
             // 
             this.startButton.Enabled = false;
+            this.startButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.startButton.Location = new System.Drawing.Point(487, 196);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(144, 23);
@@ -68,7 +69,7 @@
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
-            // Form1
+            // StartMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -76,7 +77,7 @@
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.BlackTeam);
             this.Controls.Add(this.WhiteTeam);
-            this.Name = "Form1";
+            this.Name = "StartMenu";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();

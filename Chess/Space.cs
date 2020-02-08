@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Chess
 {
-     /*********************************************************************
+    /*********************************************************************
      * 
      *********************************************************************/
     class Space : Button
@@ -37,10 +37,13 @@ namespace Chess
             this.piece = piece;
             if (piece != null)
             {
+                BackColor = BackColor;
+                ForeColor = piece.GetTextColor();
                 image = piece.GetImage();
                 this.Text = piece.GetPieceType();
                 piece.SetCol(col);
                 piece.SetRow(row);
+                ForeColor = piece.GetTextColor();
             }
                 
         }
