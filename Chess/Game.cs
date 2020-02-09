@@ -20,6 +20,8 @@ namespace Chess
         private Space[,] board;
         private Piece selected;
         private String turn;
+        private int spaceWidth;
+        private int spaceHeight;
 
         /*********************************************************************
          * NON-DEFAULT CONSTRUCTOR
@@ -33,7 +35,12 @@ namespace Chess
 
             this.team = team;
             turn = "white";
+
+            spaceWidth = 60;
+            spaceHeight = 60;
             CreateBoard();
+            turnSign.Text = "WHITE TURN";
+
         }
 
         /*********************************************************************
@@ -60,13 +67,13 @@ namespace Chess
                     
                     board[r, c] = new Space(color, null);
                     board[r, c].MouseUp += ButtonClick;
-                    board[r, c].Width = 50;
-                    board[r, c].Height = 50;
+                    board[r, c].Width = spaceWidth;
+                    board[r, c].Height = spaceHeight;
                     board[r, c].SetCol(c);
                     board[r, c].SetRow(r);
 
 
-                    board[r, c].Location = new Point(board[r, c].Width * c + 100, board[r, c].Height * r + 50);
+                    board[r, c].Location = new Point(board[r, c].Width * c + 100, board[r, c].Height * r + 80);
                     Controls.Add(board[r, c]);
                     count++;
                     if (c == 7)
@@ -145,8 +152,16 @@ namespace Chess
         public void ButtonClick(object sender, MouseEventArgs e)
         {
             Space thisButton = ((Space)sender);
-            
 
+            if (e.Button == MouseButtons.Right)
+            {
+                if (selected != null && thisButton.GetPiece() == selected)
+                {
+                    selected = null;
+                    thisButton.ForeColor = thisButton.GetPiece().GetTextColor();
+                    return;
+                }
+            }
             if (selected == null)
             {
                 
@@ -162,8 +177,8 @@ namespace Chess
                         else
                         {
                             selected.CalcPossMoves(board);
-
-                            ShowPossibleMoves();
+                            thisButton.ForeColor = Color.Yellow;
+                            //ShowPossibleMoves();
 
                             if (selected.GetPossMoves().Count == 0)
                                 selected = null;
@@ -196,10 +211,12 @@ namespace Chess
             if (turn == "white")
             {
                 turn = "black";
+                turnSign.Text = "BLACK TURN";
             }
             else
             {
                 turn = "white";
+                turnSign.Text = "WHITE TURN";
             }
         }
 

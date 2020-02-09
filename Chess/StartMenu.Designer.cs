@@ -78,6 +78,7 @@
             this.Controls.Add(this.BlackTeam);
             this.Controls.Add(this.WhiteTeam);
             this.Name = "StartMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();

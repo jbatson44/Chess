@@ -28,19 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.turnSign = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
+            // 
+            // turnSign
+            // 
+            this.turnSign.Enabled = false;
+            this.turnSign.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.turnSign.Location = new System.Drawing.Point(12, 12);
+            this.turnSign.Name = "turnSign";
+            this.turnSign.Size = new System.Drawing.Size(269, 45);
+            this.turnSign.TabIndex = 0;
             // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 653);
+            this.ClientSize = new System.Drawing.Size(882, 853);
+            this.Controls.Add(this.turnSign);
             this.Name = "Game";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Game";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.TextBox turnSign;
     }
 }
