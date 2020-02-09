@@ -26,6 +26,41 @@ namespace Chess
         public abstract void CalcPossMoves(Space [,] board);
         protected Color textColor;
 
+        public bool CanKillKing(Space[,] board)
+        {
+            for (int i = 0; i < GetPossMoves().Count; i++)
+            {
+                int row = GetPossMoves()[i].row;
+                int col = GetPossMoves()[i].col;
+                if (ValidSpot(row, col) && board[row, col].GetPiece().GetPieceType() == "King")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /*********************************************************************
+        * IsPossible
+        * Parameters
+        *  row - the row of the spot being checked
+        *  col - the column of the spot being checked
+        * Check if this location is a spot our piece can move to
+        *********************************************************************/
+        public bool IsPossible(int row, int col)
+        {
+            for (int i = 0; i < GetPossMoves().Count; i++)
+            {
+                if (row == GetPossMoves()[i].row &&
+                    col == GetPossMoves()[i].col)
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
         /*********************************************************************
         * SetSpaceValid
         * Parameters

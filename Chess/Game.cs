@@ -11,9 +11,9 @@ using System.Windows.Forms;
 namespace Chess
 {
     /*********************************************************************
-     * Game
-     * This is our game form
-     *********************************************************************/
+    * Game
+    * This is our game form
+    *********************************************************************/
     public partial class Game : Form
     {
         private String team;
@@ -22,13 +22,14 @@ namespace Chess
         private String turn;
         private int spaceWidth;
         private int spaceHeight;
+        private bool gameOver;
 
         /*********************************************************************
-         * NON-DEFAULT CONSTRUCTOR
-         * Parameters
-         *  team - the team the user chose
-         * Set the users team and call CreateBoard() to initialize the board
-         *********************************************************************/
+        * NON-DEFAULT CONSTRUCTOR
+        * Parameters
+        *  team - the team the user chose
+        * Set the users team and call CreateBoard() to initialize the board
+        *********************************************************************/
         public Game(String team)
         {
             InitializeComponent();
@@ -42,6 +43,7 @@ namespace Chess
             CreateBoard();
             turnSign.Text = "WHITE TURN";
 
+            gameOver = false;
         }
 
         /*********************************************************************
@@ -154,68 +156,72 @@ namespace Chess
         {
             Space thisButton = ((Space)sender);
 
-            // Check if it was a right mouse click
-            if (e.Button == MouseButtons.Right)
+            if (!gameOver)
             {
-                // if this was the selected space then we unselect it
-                if (selected != null && thisButton.GetPiece() == selected)
+                // Check if it was a right mouse click
+                if (e.Button == MouseButtons.Right)
                 {
-                    selected = null;
-                    thisButton.ForeColor = thisButton.GetPiece().GetTextColor();
-                    return;
-                }
-            }
-            // left mouse click
-            else
-            {
-                // if there isn't a piece selected
-                if (selected == null)
-                {
-                    // if the place we just clicked on has a piece there
-                    if (thisButton.GetPiece() != null)
+                    // if this was the selected space then we unselect it
+                    if (selected != null && thisButton.GetPiece() == selected)
                     {
-                        // if the piece is on our team
-                        if (turn == thisButton.GetPiece().GetTeam())
+                        selected = null;
+                        thisButton.ForeColor = thisButton.GetPiece().GetTextColor();
+                        return;
+                    }
+                }
+                // left mouse click
+                else
+                {
+                    // if there isn't a piece selected
+                    if (selected == null)
+                    {
+                        // if the place we just clicked on has a piece there
+                        if (thisButton.GetPiece() != null)
                         {
-                            // set this piece as the selected one
-                            selected = thisButton.GetPiece();
-                            if (e.Button == MouseButtons.Right)
+                            // if the piece is on our team
+                            if (turn == thisButton.GetPiece().GetTeam())
                             {
-
-                            }
-                            else
-                            {
-                                // calculate all the spots this piece could move to
-                                selected.CalcPossMoves(board);
-                                // if it can't move then we unselect it
-                                if (selected.GetPossMoves().Count == 0)
+                                // set this piece as the selected one
+                                selected = thisButton.GetPiece();
+                                if (e.Button == MouseButtons.Right)
                                 {
-                                    selected = null;
+
                                 }
-                                // we set the text color to yellow to show which piece is selected
                                 else
                                 {
-                                    thisButton.ForeColor = Color.Yellow;
-                                    //ShowPossibleMoves();
+                                    // calculate all the spots this piece could move to
+                                    selected.CalcPossMoves(board);
+                                    // if it can't move then we unselect it
+                                    if (selected.GetPossMoves().Count == 0)
+                                    {
+                                        selected = null;
+                                    }
+                                    // we set the text color to yellow to show which piece is selected
+                                    else
+                                    {
+                                        thisButton.ForeColor = Color.Yellow;
+                                        //ShowPossibleMoves();
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                // if we already had a selected piece
-                else
-                {
-                    int row = thisButton.GetRow();
-                    int col = thisButton.GetCol();
-
-                    // if the selected piece can be moved here then we move it
-                    if (IsPossible(row, col))
+                    // if we already had a selected piece
+                    else
                     {
-                        int fromRow = selected.GetRow();
-                        int fromCol = selected.GetColumn();
-                        MoveTo(fromRow, fromCol, row, col);
-                        ClearPossible();
-                        SwitchTurn();
+                        int row = thisButton.GetRow();
+                        int col = thisButton.GetCol();
+
+                        // if the selected piece can be moved here then we move it
+                        if (IsPossible(row, col))
+                        {
+                            int fromRow = selected.GetRow();
+                            int fromCol = selected.GetColumn();
+                            MoveTo(fromRow, fromCol, row, col);
+                            ClearPossible();
+                            gameOver = IsCheckMate();
+                            SwitchTurn();
+                        }
                     }
                 }
             }
@@ -255,9 +261,9 @@ namespace Chess
         }
 
         /*********************************************************************
-         * ClearPossible
-         * Reset the text of every space
-         *********************************************************************/
+        * ClearPossible
+        * Reset the text of every space
+        *********************************************************************/
         public void ClearPossible()
         {
             for (int row = 0; row < 8; row++)
@@ -273,12 +279,12 @@ namespace Chess
         }
 
         /*********************************************************************
-         * IsPossible
-         * Parameters
-         *  row - the row of the spot being checked
-         *  col - the column of the spot being checked
-         * Check if this location is a spot our piece can move to
-         *********************************************************************/
+        * IsPossible
+        * Parameters
+        *  row - the row of the spot being checked
+        *  col - the column of the spot being checked
+        * Check if this location is a spot our piece can move to
+        *********************************************************************/
         public bool IsPossible(int row, int col)
         {
             for (int i = 0; i < selected.GetPossMoves().Count; i++)
@@ -294,14 +300,14 @@ namespace Chess
         }
 
         /*********************************************************************
-         * MoveTo
-         * Parameters
-         *  fromR - the row of the piece's original space
-         *  fromC - the column of the piece's original space
-         *  toR - the row of the piece's new space
-         *  toC - the column of the piece's new space
-         * Move the piece to its new space
-         *********************************************************************/
+        * MoveTo
+        * Parameters
+        *  fromR - the row of the piece's original space
+        *  fromC - the column of the piece's original space
+        *  toR - the row of the piece's new space
+        *  toC - the column of the piece's new space
+        * Move the piece to its new space
+        *********************************************************************/
         public void MoveTo(int fromR, int fromC, int toR, int toC)
         {
             board[fromR, fromC].SetPiece(null);
@@ -309,6 +315,77 @@ namespace Chess
             selected.GetPossMoves().Clear();
             selected = null;
             board[fromR, fromC].ClearSpace();
+        }
+
+        /*********************************************************************
+        * IsCheck
+        * Loop through the board and for each piece we check if they can kill
+        * the king if they can we end and return true.
+        *********************************************************************/
+        public bool IsCheck(int row, int col)
+        {
+            for (int r = 0; r < 8; r++)
+            {
+                for (int c = 0; c < 8; c++)
+                {
+                    Piece piece = board[r, c].GetPiece();
+                    if (piece != null && piece.GetTeam() == turn)
+                    {
+                        piece.CalcPossMoves(board);
+                        if (piece.IsPossible(row, col))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        /*********************************************************************
+        * IsCheck
+        * Loop through the board and for each piece we check if they can kill
+        * the king if they can we end and return true.
+        *********************************************************************/
+        public bool IsCheckMate()
+        {
+            //MessageBox.Show("here");
+            for (int r = 0; r < 8; r++)
+            {
+                for (int c = 0; c < 8; c++)
+                {
+                    Piece piece = board[r, c].GetPiece();
+                    if (piece != null && piece.GetTeam() != turn && piece.GetPieceType() == "King")
+                    {
+                        MessageBox.Show("here king found");
+                        Piece king = board[r, c].GetPiece();
+                        if (IsCheck(r, c))
+                        {
+                            MessageBox.Show("king is checked");
+                            checkText.Text = "CHECK";
+
+
+                            king.CalcPossMoves(board);
+                            int checkCount = 0;
+                            for (int i = 0; i < king.GetPossMoves().Count; i++)
+                            {
+                                if (IsCheck(king.GetPossMoves()[i].row, king.GetPossMoves()[i].col))
+                                {
+                                    checkCount++;
+                                }
+                            }
+                            if (checkCount == king.GetPossMoves().Count)
+                            {
+                                checkText.Text = "CHECKMATE";
+                                return true;
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            
+            return false;
         }
     }
 }
