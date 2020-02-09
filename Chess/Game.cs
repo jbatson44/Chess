@@ -35,6 +35,7 @@ namespace Chess
 
             this.team = team;
             turn = "white";
+            selected = null;
 
             spaceWidth = 60;
             spaceHeight = 60;
@@ -162,42 +163,53 @@ namespace Chess
                     return;
                 }
             }
-            if (selected == null)
+            else
             {
-                
-                if (thisButton.GetPiece() != null)
+                if (selected == null)
                 {
-                    if (turn == thisButton.GetPiece().GetTeam())
+
+                    if (thisButton.GetPiece() != null)
                     {
-                        selected = thisButton.GetPiece();
-                        if (e.Button == MouseButtons.Right)
+                        if (turn == thisButton.GetPiece().GetTeam())
                         {
+                            selected = thisButton.GetPiece();
+                            if (e.Button == MouseButtons.Right)
+                            {
 
-                        }
-                        else
-                        {
-                            selected.CalcPossMoves(board);
-                            thisButton.ForeColor = Color.Yellow;
-                            //ShowPossibleMoves();
+                            }
+                            else
+                            {
+                                selected.CalcPossMoves(board);
+                                if (selected.GetPossMoves().Count == 0)
+                                {
+                                    selected = null;
+                                }
+                                else
+                                {
+                                    thisButton.ForeColor = Color.Yellow;
+                                    //ShowPossibleMoves();
+                                }
 
-                            if (selected.GetPossMoves().Count == 0)
-                                selected = null;
+
+
+
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                int row = thisButton.GetRow();
-                int col = thisButton.GetCol();
-                
-                if (IsPossible(row, col))
+                else
                 {
-                    int fromRow = selected.GetRow();
-                    int fromCol = selected.GetColumn();
-                    MoveTo(fromRow, fromCol, row, col);
-                    ClearPossible();
-                    SwitchTurn();
+                    int row = thisButton.GetRow();
+                    int col = thisButton.GetCol();
+
+                    if (IsPossible(row, col))
+                    {
+                        int fromRow = selected.GetRow();
+                        int fromCol = selected.GetColumn();
+                        MoveTo(fromRow, fromCol, row, col);
+                        ClearPossible();
+                        SwitchTurn();
+                    }
                 }
             }
         }
