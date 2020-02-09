@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
+    /*********************************************************************
+    * Queen Class
+    * Inherits from piece. Contains the logic specific to a queen.
+    *********************************************************************/
     class Queen : Piece
     {
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * NON-DEFAULT CONSTRUCTOR
+        * Parameters
+        *   team - this queen's team
+        * Set the values for the queen
+        *********************************************************************/
         public Queen(String team)
         {
             this.team = team;
@@ -33,8 +40,11 @@ namespace Chess
         }
 
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * CalcPossMoves
+        * Parameters
+        *   board - the board of spaces
+        * A queen can move 8 spaces in any direction
+        *********************************************************************/
         override public void CalcPossMoves(Space[,] board)
         {
             StraightPaths(board, 8);

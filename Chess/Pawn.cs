@@ -8,12 +8,16 @@ using System.Threading.Tasks;
 namespace Chess
 {
     /*********************************************************************
-    * 
+    * Pawn Class
+    * Inherits from piece. Contains the logic specific to a pawn.
     *********************************************************************/
     class Pawn : Piece
     {
         /*********************************************************************
-        * 
+        * NON-DEFAULT CONSTRUCTOR
+        * Parameters
+        *   team - this pawn's team
+        * Set the values for the pawn
         *********************************************************************/
         public Pawn(String team)
         {
@@ -36,7 +40,12 @@ namespace Chess
         }
 
         /*********************************************************************
-        * 
+        * CalcPossMoves
+        * Parameters
+        *   board - the board of spaces
+        * A pawn can move one space towards the enemy, but if it is the pawn's
+        * first move it could move two spaces instead. If there is an enemy 
+        * one space diagonally in front of it then it can move and take it.
         *********************************************************************/
         override public void CalcPossMoves(Space[,] board)
         {

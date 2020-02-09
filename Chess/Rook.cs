@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
+    /*********************************************************************
+    * Rook Class
+    * Inherits from piece. Contains the logic specific to a rook.
+    *********************************************************************/
     class Rook : Piece
     {
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * NON-DEFAULT CONSTRUCTOR
+        * Parameters
+        *   team - this rook's team
+        * Set the values for the rook
+        *********************************************************************/
         public Rook(String team)
         {
             this.team = team;
@@ -33,8 +40,11 @@ namespace Chess
         }
 
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * CalcPossMoves
+        * Parameters
+        *   board - the board of spaces
+        * A rook can up to 8 spaces up, down, left, or right
+        *********************************************************************/
         override public void CalcPossMoves(Space[,] board)
         {
             StraightPaths(board, 8);

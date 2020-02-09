@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
+    /*********************************************************************
+    * Knight Class
+    * Inherits from piece. Contains the logic specific to a knight.
+    *********************************************************************/
     class Knight : Piece
     {
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * NON-DEFAULT CONSTRUCTOR
+        * Parameters
+        *   team - this knight's team
+        * Set the values for the knight
+        *********************************************************************/
         public Knight(String team)
         {
             this.team = team;
@@ -30,8 +37,11 @@ namespace Chess
         }
 
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * CalcPossMoves
+        * Parameters
+        *   board - the board of spaces
+        * A knight can move to spaces that are an L shaped distane away
+        *********************************************************************/
         override public void CalcPossMoves(Space[,] board)
         {
             int newRow = row + 1;

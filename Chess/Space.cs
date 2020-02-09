@@ -9,7 +9,8 @@ using System.Windows.Forms;
 namespace Chess
 {
     /*********************************************************************
-    * 
+    * Space Class
+    * Contains the logic for a space on a chess board
     *********************************************************************/
     class Space : Button
     {
@@ -20,7 +21,7 @@ namespace Chess
         private int col;
 
         /*********************************************************************
-        * 
+        * NON-DEFAULT CONSTRUCTOR
         *********************************************************************/
         public Space(Color color, Piece piece)
         {
@@ -30,7 +31,10 @@ namespace Chess
         }
 
         /*********************************************************************
-        * 
+        * SetPiece
+        * Parameters
+        *   piece - the piece that will now be on this space
+        * Set the new piece for this space
         *********************************************************************/
         public void SetPiece(Piece piece)
         {
@@ -49,7 +53,8 @@ namespace Chess
         }
 
         /*********************************************************************
-        * 
+        * ClearSpace
+        * Clear the values of this space once a piece moves to a new space
         *********************************************************************/
         public void ClearSpace()
         {

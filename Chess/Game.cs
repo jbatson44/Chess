@@ -132,7 +132,7 @@ namespace Chess
 
             Bishop bishopB = new Bishop("black");
             board[2, 7].SetPiece(bishopB);
-            bishop = new Bishop("black");
+            bishopB = new Bishop("black");
             board[5, 7].SetPiece(bishopB);
 
             Queen queen = new Queen("white");
@@ -148,14 +148,16 @@ namespace Chess
 
         /*********************************************************************
         * ButtonClick
-        * 
+        * Handles the button click for each space of the board
         *********************************************************************/
         public void ButtonClick(object sender, MouseEventArgs e)
         {
             Space thisButton = ((Space)sender);
 
+            // Check if it was a right mouse click
             if (e.Button == MouseButtons.Right)
             {
+                // if this was the selected space then we unselect it
                 if (selected != null && thisButton.GetPiece() == selected)
                 {
                     selected = null;
@@ -163,15 +165,19 @@ namespace Chess
                     return;
                 }
             }
+            // left mouse click
             else
             {
+                // if there isn't a piece selected
                 if (selected == null)
                 {
-
+                    // if the place we just clicked on has a piece there
                     if (thisButton.GetPiece() != null)
                     {
+                        // if the piece is on our team
                         if (turn == thisButton.GetPiece().GetTeam())
                         {
+                            // set this piece as the selected one
                             selected = thisButton.GetPiece();
                             if (e.Button == MouseButtons.Right)
                             {
@@ -179,29 +185,30 @@ namespace Chess
                             }
                             else
                             {
+                                // calculate all the spots this piece could move to
                                 selected.CalcPossMoves(board);
+                                // if it can't move then we unselect it
                                 if (selected.GetPossMoves().Count == 0)
                                 {
                                     selected = null;
                                 }
+                                // we set the text color to yellow to show which piece is selected
                                 else
                                 {
                                     thisButton.ForeColor = Color.Yellow;
                                     //ShowPossibleMoves();
                                 }
-
-
-
-
                             }
                         }
                     }
                 }
+                // if we already had a selected piece
                 else
                 {
                     int row = thisButton.GetRow();
                     int col = thisButton.GetCol();
 
+                    // if the selected piece can be moved here then we move it
                     if (IsPossible(row, col))
                     {
                         int fromRow = selected.GetRow();
@@ -249,7 +256,7 @@ namespace Chess
 
         /*********************************************************************
          * ClearPossible
-         * 
+         * Reset the text of every space
          *********************************************************************/
         public void ClearPossible()
         {
@@ -266,7 +273,11 @@ namespace Chess
         }
 
         /*********************************************************************
-         * 
+         * IsPossible
+         * Parameters
+         *  row - the row of the spot being checked
+         *  col - the column of the spot being checked
+         * Check if this location is a spot our piece can move to
          *********************************************************************/
         public bool IsPossible(int row, int col)
         {
@@ -283,7 +294,13 @@ namespace Chess
         }
 
         /*********************************************************************
-         * 
+         * MoveTo
+         * Parameters
+         *  fromR - the row of the piece's original space
+         *  fromC - the column of the piece's original space
+         *  toR - the row of the piece's new space
+         *  toC - the column of the piece's new space
+         * Move the piece to its new space
          *********************************************************************/
         public void MoveTo(int fromR, int fromC, int toR, int toC)
         {

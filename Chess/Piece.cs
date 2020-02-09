@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
+    /*********************************************************************
+    * Piece Class
+    * Contains the basic logic that all chess pieces need
+    *********************************************************************/
     abstract class Piece
     {
         public Piece()
@@ -22,6 +26,14 @@ namespace Chess
         public abstract void CalcPossMoves(Space [,] board);
         protected Color textColor;
 
+        /*********************************************************************
+        * SetSpaceValid
+        * Parameters
+        *   row - the row of the space being checked
+        *   col - the column of the space being checked
+        * Check to see if the space is on the board and if it is add it to
+        * the list of possible moves (possMoves)
+        *********************************************************************/
         public void SetSpaceValid(int row, int col)
         {
             if (row < 8 && row >= 0 && col < 8 && col >= 0)
@@ -30,6 +42,9 @@ namespace Chess
             }
         }
 
+        /*********************************************************************
+        * 
+        *********************************************************************/
         public void MovePiece(int newRow, int newCol, Space[,] board)
         {
             
@@ -37,8 +52,12 @@ namespace Chess
 
 
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * ValidSpot
+        * Parameters
+        *   row - the row of the space being checked
+        *   col - the column of the space being checked
+        * Check to see if the space is on the board
+        *********************************************************************/
         public bool ValidSpot(int row, int col)
         {
             if (row >= 0 && row < 8 && col >= 0 && col < 8)
@@ -48,12 +67,21 @@ namespace Chess
             return false;
         }
 
+        /*********************************************************************
+        * CheckIfPossible
+        * Parameters
+        *   newRow - the row the piece could be moved to
+        *   newCol - the column the piece could be moved to
+        *   board - the board of spaces
+        * Checks to see if the space is on the board. Then checks to see if
+        * the space is empty or if its occupied by an enemy piece. If either
+        * is true then we add it to the possible values
+        *********************************************************************/
         public void CheckIfPossible(int newRow, int newCol, Space[,] board)
         {
             if (ValidSpot(newRow, newCol))
             {
-                if ((board[newRow, newCol].GetPiece() != null
-                    && board[newRow, newCol].GetPiece().GetTeam() != team)
+                if (IsOtherTeam(board[newRow, newCol].GetPiece())
                     || board[newRow, newCol].GetPiece() == null)
                 {
                     SetSpaceValid(newRow, newCol);
@@ -61,11 +89,17 @@ namespace Chess
             }
         }
 
-        public bool IsOtherTeam(Piece p)
+        /*********************************************************************
+        * IsOtherTeam
+        * Parameters
+        *   piece - the piece we are checking
+        * Check to see if the piece is an enemy piece or not
+        *********************************************************************/
+        public bool IsOtherTeam(Piece piece)
         {
-            if (p != null)
+            if (piece != null)
             {
-                if (p.GetTeam() != this.team)
+                if (piece.GetTeam() != this.team)
                 {
                     return true;
                 }
@@ -73,8 +107,17 @@ namespace Chess
             return false;
         }
 
+        /*********************************************************************
+        * StraightPaths
+        * Parameters
+        *   board - the board of spaces
+        *   distance - the max distance the piece can move
+        * Calculate the possible spaces the piece could move on the x and y
+        * axes.
+        *********************************************************************/
         public void StraightPaths(Space[,] board, int distance)
         {
+            // first we check the possible spaces to the left
             int newRow = row;
             int newCol = col - 1;
             int count = 0;
@@ -86,9 +129,9 @@ namespace Chess
                     break;
                 newCol--;
                 count++;
-
             }
 
+            // check the possible spaces to the right
             newCol = col + 1;
             count = 0;
             while ((ValidSpot(newRow, newCol) && (board[newRow, newCol].GetPiece() == null
@@ -102,6 +145,7 @@ namespace Chess
 
             }
 
+            // check the possible spaces up
             newRow = row + 1;
             newCol = col;
             count = 0;
@@ -115,7 +159,7 @@ namespace Chess
                 count++;
             }
 
-
+            // check the possible spaces down
             newRow = row - 1;
             newCol = col;
             count = 0;
@@ -130,8 +174,17 @@ namespace Chess
             }
         }
 
+        /*********************************************************************
+        * DiagonalPaths
+        * Parameters
+        *   board - the board of spaces
+        *   distance - the max distance the piece can move
+        * We check the possible spaces the piece could move to on the spaces
+        * diagonal to its current location up to the max distance it can move.
+        *********************************************************************/
         public void DiagonalPaths(Space[,] board, int distance)
         {
+            // check the possible spaces on the up-right diagonal
             int newRow = row + 1;
             int newCol = col + 1;
             int count = 0;
@@ -147,6 +200,7 @@ namespace Chess
                 count++;
             }
 
+            // check the possible spaces on the down-right diagonal
             newRow = row - 1;
             newCol = col + 1;
             count = 0;
@@ -161,6 +215,7 @@ namespace Chess
                 count++;
             }
 
+            // check the possible spaces on the down-left diagonal
             newRow = row - 1;
             newCol = col - 1;
             count = 0;
@@ -175,6 +230,7 @@ namespace Chess
                 count++;
             }
 
+            // check the possible spaces on the up-left diagonal
             newRow = row + 1;
             newCol = col - 1;
             count = 0;

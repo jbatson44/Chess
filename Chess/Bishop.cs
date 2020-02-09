@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
+    /*********************************************************************
+    * Bishop Class
+    * Inherits from piece. Contains the logic specific to a bishop.
+    *********************************************************************/
     class Bishop : Piece
     {
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * NON-DEFAULT CONSTRUCTOR
+        * Parameters
+        *   team - this bishops's team
+        * Set the values for the bishop
+        *********************************************************************/
         public Bishop(String team)
         {
             this.team = team;
@@ -33,8 +40,11 @@ namespace Chess
         }
 
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * CalcPossMoves
+        * Parameters
+        *   board - the board of spaces
+        * A bishop can move diagonally a max of 8 spaces
+        *********************************************************************/
         override public void CalcPossMoves(Space[,] board)
         {
             DiagonalPaths(board, 8);

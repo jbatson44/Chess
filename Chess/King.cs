@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
+    /*********************************************************************
+    * King Class
+    * Inherits from piece. Contains the logic specific to a king.
+    *********************************************************************/
     class King : Piece
     {
         /*********************************************************************
-        * 
+        * NON-DEFAULT CONSTRUCTOR
+        * Parameters
+        *   team - this king's team
+        * Set the values for the king
         *********************************************************************/
         public King(String team)
         {
@@ -33,7 +40,10 @@ namespace Chess
         }
 
         /*********************************************************************
-        * 
+        * CalcPossMoves
+        * Parameters
+        *   board - the board of spaces
+        * A king can move one space in any direction
         *********************************************************************/
         override public void CalcPossMoves(Space[,] board)
         {
