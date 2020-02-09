@@ -48,6 +48,149 @@ namespace Chess
             return false;
         }
 
+        public void CheckIfPossible(int newRow, int newCol, Space[,] board)
+        {
+            if (ValidSpot(newRow, newCol))
+            {
+                if ((board[newRow, newCol].GetPiece() != null
+                    && board[newRow, newCol].GetPiece().GetTeam() != team)
+                    || board[newRow, newCol].GetPiece() == null)
+                {
+                    SetSpaceValid(newRow, newCol);
+                }
+            }
+        }
+
+        public bool IsOtherTeam(Piece p)
+        {
+            if (p != null)
+            {
+                if (p.GetTeam() != this.team)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void StraightPaths(Space[,] board, int distance)
+        {
+            int newRow = row;
+            int newCol = col - 1;
+            int count = 0;
+            while ((ValidSpot(newRow, newCol) && (board[newRow, newCol].GetPiece() == null
+                || IsOtherTeam(board[newRow, newCol].GetPiece())) && count < distance))
+            {
+                CheckIfPossible(newRow, newCol, board);
+                if (IsOtherTeam(board[newRow, newCol].GetPiece()))
+                    break;
+                newCol--;
+                count++;
+
+            }
+
+            newCol = col + 1;
+            count = 0;
+            while ((ValidSpot(newRow, newCol) && (board[newRow, newCol].GetPiece() == null
+                || IsOtherTeam(board[newRow, newCol].GetPiece())) && count < distance))
+            {
+                CheckIfPossible(newRow, newCol, board);
+                if (IsOtherTeam(board[newRow, newCol].GetPiece()))
+                    break;
+                newCol++;
+                count++;
+
+            }
+
+            newRow = row + 1;
+            newCol = col;
+            count = 0;
+            while ((ValidSpot(newRow, newCol) && (board[newRow, newCol].GetPiece() == null
+                || IsOtherTeam(board[newRow, newCol].GetPiece())) && count < distance))
+            {
+                CheckIfPossible(newRow, newCol, board);
+                if (IsOtherTeam(board[newRow, newCol].GetPiece()))
+                    break;
+                newRow++;
+                count++;
+            }
+
+
+            newRow = row - 1;
+            newCol = col;
+            count = 0;
+            while ((ValidSpot(newRow, newCol) && (board[newRow, newCol].GetPiece() == null
+                || IsOtherTeam(board[newRow, newCol].GetPiece())) && count < distance))
+            {
+                CheckIfPossible(newRow, newCol, board);
+                if (IsOtherTeam(board[newRow, newCol].GetPiece()))
+                    break;
+                newRow--;
+                count++;
+            }
+        }
+
+        public void DiagonalPaths(Space[,] board, int distance)
+        {
+            int newRow = row + 1;
+            int newCol = col + 1;
+            int count = 0;
+
+            while ((ValidSpot(newRow, newCol) && (board[newRow, newCol].GetPiece() == null
+                || IsOtherTeam(board[newRow, newCol].GetPiece())) && count < distance))
+            {
+                CheckIfPossible(newRow, newCol, board);
+                if (IsOtherTeam(board[newRow, newCol].GetPiece()))
+                    break;
+                newRow++;
+                newCol++;
+                count++;
+            }
+
+            newRow = row - 1;
+            newCol = col + 1;
+            count = 0;
+            while ((ValidSpot(newRow, newCol) && (board[newRow, newCol].GetPiece() == null
+                || IsOtherTeam(board[newRow, newCol].GetPiece())) && count < distance))
+            {
+                CheckIfPossible(newRow, newCol, board);
+                if (IsOtherTeam(board[newRow, newCol].GetPiece()))
+                    break;
+                newRow--;
+                newCol++;
+                count++;
+            }
+
+            newRow = row - 1;
+            newCol = col - 1;
+            count = 0;
+            while ((ValidSpot(newRow, newCol) && (board[newRow, newCol].GetPiece() == null
+                || IsOtherTeam(board[newRow, newCol].GetPiece())) && count < distance))
+            {
+                CheckIfPossible(newRow, newCol, board);
+                if (IsOtherTeam(board[newRow, newCol].GetPiece()))
+                    break;
+                newRow--;
+                newCol--;
+                count++;
+            }
+
+            newRow = row + 1;
+            newCol = col - 1;
+            count = 0;
+            while ((ValidSpot(newRow, newCol) && (board[newRow, newCol].GetPiece() == null
+                || IsOtherTeam(board[newRow, newCol].GetPiece())) && count < distance))
+            {
+                CheckIfPossible(newRow, newCol, board);
+                if (IsOtherTeam(board[newRow, newCol].GetPiece()))
+                    break;
+                newRow++;
+                newCol--;
+                count++;
+            }
+
+        }
+
         public Color GetTextColor() { return textColor; }
         public Image GetImage() { return image; }
         public String GetPieceType() { return pieceType; }

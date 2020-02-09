@@ -76,6 +76,11 @@ namespace Chess
                 }
             }
             SetPieces();
+
+            //Bishop rook = new Bishop("white");
+            //board[4, 4].SetPiece(rook);
+            //Pawn p = new Pawn("black");
+            //board[0, 7].SetPiece(p);
         }
 
         /*********************************************************************

@@ -55,17 +55,6 @@ namespace Chess
 
         }
 
-        public void CheckIfPossible(int newRow, int newCol, Space[,] board)
-        {
-            if (ValidSpot(newRow, newCol))
-            {
-                if ((board[newRow, newCol].GetPiece() != null
-                    && board[newRow, newCol].GetPiece().GetTeam() != team)
-                    || board[newRow, newCol].GetPiece() == null)
-                {
-                    SetSpaceValid(newRow, newCol);
-                }
-            }
-        }
+        
     }
 }

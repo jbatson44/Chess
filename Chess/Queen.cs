@@ -37,7 +37,8 @@ namespace Chess
          *********************************************************************/
         override public void CalcPossMoves(Space[,] board)
         {
-            
+            StraightPaths(board, 8);
+            DiagonalPaths(board, 8);
         }
     }
 }

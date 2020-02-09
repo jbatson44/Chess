@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 namespace Chess
 {
     /*********************************************************************
-     * 
-     *********************************************************************/
+    * 
+    *********************************************************************/
     class Pawn : Piece
     {
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * 
+        *********************************************************************/
         public Pawn(String team)
         {
             this.team = team;
@@ -36,8 +36,8 @@ namespace Chess
         }
 
         /*********************************************************************
-         * 
-         *********************************************************************/
+        * 
+        *********************************************************************/
         override public void CalcPossMoves(Space[,] board)
         {
             int direction = 0;
@@ -52,7 +52,7 @@ namespace Chess
                 textColor = Color.Black;
             }
 
-            if (board[row, col + direction].GetPiece() == null)
+            if (ValidSpot(row, col + direction) && board[row, col + direction].GetPiece() == null)
                 SetSpaceValid(row, col + direction);
             if ((team == "white" && col == 1) || (team == "black" && col == 6))
                 SetSpaceValid(row, col + (direction * 2));
