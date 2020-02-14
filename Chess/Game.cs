@@ -78,7 +78,9 @@ namespace Chess
                     board[r, c].Height = spaceHeight;
                     board[r, c].SetCol(c);
                     board[r, c].SetRow(r);
-
+                    board[r, c].FlatStyle = FlatStyle.Flat;
+                    board[r, c].FlatAppearance.BorderColor = Color.Black;
+                    board[r, c].FlatAppearance.BorderSize = 1;
 
                     board[r, c].Location = new Point(board[r, c].Width * c + 100, board[r, c].Height * r + 80);
                     Controls.Add(board[r, c]);
@@ -188,6 +190,7 @@ namespace Chess
                     {
                         selected = null;
                         thisButton.ForeColor = thisButton.GetPiece().GetTextColor();
+                        ClearPossible();
                         return;
                     }
                 }
@@ -222,7 +225,7 @@ namespace Chess
                                     else
                                     {
                                         thisButton.ForeColor = Color.Yellow;
-                                        //ShowPossibleMoves();
+                                        ShowPossibleMoves();
                                     }
                                 }
                             }
@@ -274,17 +277,19 @@ namespace Chess
         *********************************************************************/
         public void ShowPossibleMoves()
         {
+
             for (int i = 0; i < selected.GetPossMoves().Count; i++)
             {
                 int row = selected.GetPossMoves()[i].row;
                 int col = selected.GetPossMoves()[i].col;
-                board[row, col].Text += "Poss";
+                board[row, col].FlatAppearance.BorderColor = Color.Yellow;
+                board[row, col].FlatAppearance.BorderSize = 2;
             }
         }
 
         /*********************************************************************
         * ClearPossible
-        * Reset the text of every space
+        * Reset the border of every space
         *********************************************************************/
         public void ClearPossible()
         {
@@ -292,10 +297,8 @@ namespace Chess
             {
                 for (int col = 0; col < 8; col++)
                 {
-                    if (board[row, col].GetPiece() != null)
-                        board[row, col].Text = board[row, col].GetPiece().GetPieceType();
-                    else
-                        board[row, col].Text = "";
+                    board[row, col].FlatAppearance.BorderColor = Color.Black;
+                    board[row, col].FlatAppearance.BorderSize = 1;
                 }
             }
         }
@@ -381,25 +384,29 @@ namespace Chess
                         Piece king = board[r, c].GetPiece();
                         Piece killer = null;
                         king.CalcPossMoves(board);
+                        bool Check = false; 
                         int checkCount = 0;
                         int vulnerableChecks = 0;
                         if (IsCheck(r, c, ref killer))
                         {
+                            Check = true;
                             checkCount++;
                             if (IsKillable(killer.GetRow(), killer.GetColumn(), turn))
                             {
                                 vulnerableChecks++;
                             }
                         }
-                        
-                        for (int i = 0; i < king.GetPossMoves().Count; i++)
+                        if (Check)
                         {
-                            if (IsCheck(king.GetPossMoves()[i].row, king.GetPossMoves()[i].col, ref killer))
+                            for (int i = 0; i < king.GetPossMoves().Count; i++)
                             {
-                                checkCount++;
-                                if (IsKillable(killer.GetRow(), killer.GetColumn(), turn))
+                                if (IsCheck(king.GetPossMoves()[i].row, king.GetPossMoves()[i].col, ref killer))
                                 {
-                                    vulnerableChecks++;
+                                    checkCount++;
+                                    if (IsKillable(killer.GetRow(), killer.GetColumn(), turn))
+                                    {
+                                        vulnerableChecks++;
+                                    }
                                 }
                             }
                         }
@@ -412,7 +419,7 @@ namespace Chess
                         {
                             checkText.Text = "";
                         }
-                        else
+                        else if (Check)
                         {
                             MessageBox.Show("king is checked");
                             checkText.Text = "CHECK";

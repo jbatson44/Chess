@@ -37,7 +37,7 @@ namespace Chess
             if (WhiteTeam.Checked)
             {
                 team = "white";
-                startButton.Enabled = true;
+                LocalMultiplayer.Enabled = true;
             }
         }
 
@@ -51,7 +51,7 @@ namespace Chess
             if (BlackTeam.Checked)
             {
                 team = "black";
-                startButton.Enabled = true;
+                LocalMultiplayer.Enabled = true;
             }
         }
 

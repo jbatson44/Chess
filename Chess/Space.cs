@@ -28,6 +28,7 @@ namespace Chess
             this.BackColor = color;
             image = null;
             this.piece = piece;
+            this.color = color;
         }
 
         /*********************************************************************
