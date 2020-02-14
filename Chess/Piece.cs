@@ -11,7 +11,7 @@ namespace Chess
     * Piece Class
     * Contains the basic logic that all chess pieces need
     *********************************************************************/
-    abstract class Piece
+    public abstract class Piece
     {
         public Piece()
         {

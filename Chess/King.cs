@@ -11,7 +11,7 @@ namespace Chess
     * King Class
     * Inherits from piece. Contains the logic specific to a king.
     *********************************************************************/
-    class King : Piece
+    public class King : Piece
     {
         /*********************************************************************
         * NON-DEFAULT CONSTRUCTOR

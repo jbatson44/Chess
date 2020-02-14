@@ -11,7 +11,7 @@ namespace Chess
     * Rook Class
     * Inherits from piece. Contains the logic specific to a rook.
     *********************************************************************/
-    class Rook : Piece
+    public class Rook : Piece
     {
         /*********************************************************************
         * NON-DEFAULT CONSTRUCTOR

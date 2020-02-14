@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
-    class Pair
+    public class Pair
     {
         public Pair(int row, int col)
         {

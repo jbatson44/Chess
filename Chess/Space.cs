@@ -12,7 +12,7 @@ namespace Chess
     * Space Class
     * Contains the logic for a space on a chess board
     *********************************************************************/
-    class Space : Button
+    public class Space : Button
     {
         private Color color;
         private Image image;

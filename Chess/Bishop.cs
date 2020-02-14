@@ -11,7 +11,7 @@ namespace Chess
     * Bishop Class
     * Inherits from piece. Contains the logic specific to a bishop.
     *********************************************************************/
-    class Bishop : Piece
+    public class Bishop : Piece
     {
         /*********************************************************************
         * NON-DEFAULT CONSTRUCTOR

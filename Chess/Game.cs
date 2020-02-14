@@ -23,6 +23,8 @@ namespace Chess
         private int spaceWidth;
         private int spaceHeight;
         private bool gameOver;
+        private List<Piece> whiteTeam;
+        private List<Piece> blackTeam;
 
         /*********************************************************************
         * NON-DEFAULT CONSTRUCTOR
@@ -40,6 +42,8 @@ namespace Chess
 
             spaceWidth = 60;
             spaceHeight = 60;
+            whiteTeam = new List<Piece>();
+            blackTeam = new List<Piece>();
             CreateBoard();
             turnSign.Text = "WHITE TURN";
 
@@ -103,49 +107,67 @@ namespace Chess
             {
                 Pawn w = new Pawn("white");
                 board[i, 1].SetPiece(w);
+                whiteTeam.Add(w);
                 Pawn b = new Pawn("black");
                 board[i, 6].SetPiece(b);
+                blackTeam.Add(b);
             }
 
             Rook rook = new Rook("white");
             board[0, 0].SetPiece(rook);
+            whiteTeam.Add(rook);
             rook = new Rook("white");
             board[7, 0].SetPiece(rook);
+            whiteTeam.Add(rook);
 
             Rook rookB = new Rook("black");
             board[0, 7].SetPiece(rookB);
+            blackTeam.Add(rookB);
             rookB = new Rook("black");
             board[7, 7].SetPiece(rookB);
+            blackTeam.Add(rookB);
 
             Knight knight = new Knight("white");
             board[1, 0].SetPiece(knight);
+            whiteTeam.Add(knight);
             knight = new Knight("white");
             board[6, 0].SetPiece(knight);
+            whiteTeam.Add(knight);
 
             Knight knightB = new Knight("black");
             board[1, 7].SetPiece(knightB);
+            blackTeam.Add(knightB);
             knightB = new Knight("black");
             board[6, 7].SetPiece(knightB);
+            blackTeam.Add(knightB);
 
             Bishop bishop = new Bishop("white");
             board[2, 0].SetPiece(bishop);
+            whiteTeam.Add(bishop);
             bishop = new Bishop("white");
             board[5, 0].SetPiece(bishop);
+            whiteTeam.Add(bishop);
 
             Bishop bishopB = new Bishop("black");
             board[2, 7].SetPiece(bishopB);
+            blackTeam.Add(bishopB);
             bishopB = new Bishop("black");
             board[5, 7].SetPiece(bishopB);
+            blackTeam.Add(bishopB);
 
             Queen queen = new Queen("white");
             board[3, 0].SetPiece(queen);
+            whiteTeam.Add(queen);
             queen = new Queen("black");
             board[3, 7].SetPiece(queen);
+            blackTeam.Add(queen);
 
             King king = new King("white");
             board[4, 0].SetPiece(king);
+            whiteTeam.Add(king);
             king = new King("black");
             board[4, 7].SetPiece(king);
+            blackTeam.Add(king);
         }
 
         /*********************************************************************
@@ -322,17 +344,17 @@ namespace Chess
         * Loop through the board and for each piece we check if they can kill
         * the king if they can we end and return true.
         *********************************************************************/
-        public bool IsCheck(int row, int col)
+        public bool IsCheck(int row, int col, ref Piece killer)
         {
             for (int r = 0; r < 8; r++)
             {
                 for (int c = 0; c < 8; c++)
                 {
-                    Piece piece = board[r, c].GetPiece();
-                    if (piece != null && piece.GetTeam() == turn)
+                    killer = board[r, c].GetPiece();
+                    if (killer != null && killer.GetTeam() == turn)
                     {
-                        piece.CalcPossMoves(board);
-                        if (piece.IsPossible(row, col))
+                        killer.CalcPossMoves(board);
+                        if (killer.IsPossible(row, col))
                         {
                             return true;
                         }
@@ -343,13 +365,12 @@ namespace Chess
         }
 
         /*********************************************************************
-        * IsCheck
+        * IsCheckMate
         * Loop through the board and for each piece we check if they can kill
         * the king if they can we end and return true.
         *********************************************************************/
         public bool IsCheckMate()
         {
-            //MessageBox.Show("here");
             for (int r = 0; r < 8; r++)
             {
                 for (int c = 0; c < 8; c++)
@@ -357,34 +378,82 @@ namespace Chess
                     Piece piece = board[r, c].GetPiece();
                     if (piece != null && piece.GetTeam() != turn && piece.GetPieceType() == "King")
                     {
-                        MessageBox.Show("here king found");
                         Piece king = board[r, c].GetPiece();
-                        if (IsCheck(r, c))
+                        Piece killer = null;
+                        king.CalcPossMoves(board);
+                        int checkCount = 0;
+                        int vulnerableChecks = 0;
+                        if (IsCheck(r, c, ref killer))
                         {
-                            MessageBox.Show("king is checked");
-                            checkText.Text = "CHECK";
-
-
-                            king.CalcPossMoves(board);
-                            int checkCount = 0;
-                            for (int i = 0; i < king.GetPossMoves().Count; i++)
+                            checkCount++;
+                            if (IsKillable(killer.GetRow(), killer.GetColumn(), turn))
                             {
-                                if (IsCheck(king.GetPossMoves()[i].row, king.GetPossMoves()[i].col))
-                                {
-                                    checkCount++;
-                                }
-                            }
-                            if (checkCount == king.GetPossMoves().Count)
-                            {
-                                checkText.Text = "CHECKMATE";
-                                return true;
+                                vulnerableChecks++;
                             }
                         }
                         
+                        for (int i = 0; i < king.GetPossMoves().Count; i++)
+                        {
+                            if (IsCheck(king.GetPossMoves()[i].row, king.GetPossMoves()[i].col, ref killer))
+                            {
+                                checkCount++;
+                                if (IsKillable(killer.GetRow(), killer.GetColumn(), turn))
+                                {
+                                    vulnerableChecks++;
+                                }
+                            }
+                        }
+                        if (checkCount > 0 && checkCount == king.GetPossMoves().Count)
+                        {
+                            checkText.Text = "CHECKMATE";
+                            return true;
+                        }
+                        else if (checkCount == 0 || checkCount == vulnerableChecks)
+                        {
+                            checkText.Text = "";
+                        }
+                        else
+                        {
+                            MessageBox.Show("king is checked");
+                            checkText.Text = "CHECK";
+                        }
                     }
                 }
             }
             
+            return false;
+        }
+
+        /*********************************************************************
+        * IsKillable
+        * Parameters
+        *   r - the row of the piece being checked
+        *   c - the column of the piece being checked
+        *   enemy - the opposite team of the piece being checked
+        * Check if the coordinates can be taken by any of the pieces on the 
+        * opposite team.
+        *********************************************************************/
+        public bool IsKillable(int r, int c, string enemy)
+        {
+            List<Piece> enemies;
+            if (enemy == "white")
+            {
+                enemies = whiteTeam;
+            }
+            else
+            {
+                enemies = blackTeam;
+            }
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].CalcPossMoves(board);
+                if (enemies[i].IsPossible(r, c))
+                {
+                    return true;
+                }
+
+            }
             return false;
         }
     }

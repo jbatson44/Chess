@@ -11,7 +11,7 @@ namespace Chess
     * Queen Class
     * Inherits from piece. Contains the logic specific to a queen.
     *********************************************************************/
-    class Queen : Piece
+    public class Queen : Piece
     {
         /*********************************************************************
         * NON-DEFAULT CONSTRUCTOR

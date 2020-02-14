@@ -11,7 +11,7 @@ namespace Chess
     * Knight Class
     * Inherits from piece. Contains the logic specific to a knight.
     *********************************************************************/
-    class Knight : Piece
+    public class Knight : Piece
     {
         /*********************************************************************
         * NON-DEFAULT CONSTRUCTOR

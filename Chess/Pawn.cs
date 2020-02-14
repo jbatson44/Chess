@@ -11,7 +11,7 @@ namespace Chess
     * Pawn Class
     * Inherits from piece. Contains the logic specific to a pawn.
     *********************************************************************/
-    class Pawn : Piece
+    public class Pawn : Piece
     {
         /*********************************************************************
         * NON-DEFAULT CONSTRUCTOR
