@@ -81,6 +81,8 @@ namespace Chess
                     board[r, c].FlatStyle = FlatStyle.Flat;
                     board[r, c].FlatAppearance.BorderColor = Color.Black;
                     board[r, c].FlatAppearance.BorderSize = 1;
+                    board[r, c].Text = "";
+                    
 
                     board[r, c].Location = new Point(board[r, c].Width * c + 100, board[r, c].Height * r + 80);
                     Controls.Add(board[r, c]);
@@ -105,12 +107,14 @@ namespace Chess
         *********************************************************************/
         void SetPieces()
         {
+            Pawn w;
+            Pawn b;
             for (int i = 0; i < 8; i++)
             {
-                Pawn w = new Pawn("white");
+                w = new Pawn("white");
                 board[i, 1].SetPiece(w);
                 whiteTeam.Add(w);
-                Pawn b = new Pawn("black");
+                b = new Pawn("black");
                 board[i, 6].SetPiece(b);
                 blackTeam.Add(b);
             }
@@ -179,7 +183,7 @@ namespace Chess
         public void ButtonClick(object sender, MouseEventArgs e)
         {
             Space thisButton = ((Space)sender);
-
+            //MessageBox.Show(whiteTeam[0].GetRow().ToString() + " " + whiteTeam[0].GetColumn().ToString());
             if (!gameOver)
             {
                 // Check if it was a right mouse click
@@ -336,10 +340,29 @@ namespace Chess
         public void MoveTo(int fromR, int fromC, int toR, int toC)
         {
             board[fromR, fromC].SetPiece(null);
+            Kill(toR, toC);
             board[toR, toC].SetPiece(selected);
             selected.GetPossMoves().Clear();
             selected = null;
             board[fromR, fromC].ClearSpace();
+        }
+
+        public void Kill(int r, int c)
+        {
+            for (int i = 0; i < whiteTeam.Count; i++)
+            {
+                if (r == whiteTeam[i].GetRow() && c == whiteTeam[i].GetColumn())
+                {
+                    whiteTeam.RemoveAt(i);
+                }
+            }
+            for (int i = 0; i < blackTeam.Count; i++)
+            {
+                if (r == blackTeam[i].GetRow() && c == blackTeam[i].GetColumn())
+                {
+                    blackTeam.RemoveAt(i);
+                }
+            }
         }
 
         /*********************************************************************

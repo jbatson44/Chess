@@ -15,7 +15,7 @@ namespace Chess
     {
         public Piece()
         {
-
+            pieceType = "";
         }
         protected List<Pair> possMoves;
         protected String team;
@@ -114,6 +114,10 @@ namespace Chess
         *********************************************************************/
         public void CheckIfPossible(int newRow, int newCol, Space[,] board)
         {
+            if (pieceType == "Pawn")
+            {
+                
+            }
             if (ValidSpot(newRow, newCol))
             {
                 if (IsOtherTeam(board[newRow, newCol].GetPiece())

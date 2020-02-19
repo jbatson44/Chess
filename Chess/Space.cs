@@ -19,6 +19,7 @@ namespace Chess
         private Piece piece;
         private int row;
         private int col;
+        private bool isEmpty;
 
         /*********************************************************************
         * NON-DEFAULT CONSTRUCTOR
@@ -29,6 +30,9 @@ namespace Chess
             image = null;
             this.piece = piece;
             this.color = color;
+            isEmpty = true;
+            if (piece != null)
+                isEmpty = false;
         }
 
         /*********************************************************************
@@ -49,6 +53,7 @@ namespace Chess
                 piece.SetCol(col);
                 piece.SetRow(row);
                 ForeColor = piece.GetTextColor();
+                isEmpty = false;
             }
                 
         }
@@ -61,8 +66,11 @@ namespace Chess
         {
             image = null;
             piece = null;
-            this.Text = " ";
+            this.Text = "";
+            isEmpty = true;
         }
+
+        public bool GetIsEmpty() { return isEmpty; }
 
         public Piece GetPiece() { return piece; }
 

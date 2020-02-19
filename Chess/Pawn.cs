@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Chess
 {
@@ -38,7 +40,7 @@ namespace Chess
                 textColor = Color.Black;
             }
         }
-
+        
         /*********************************************************************
         * CalcPossMoves
         * Parameters
@@ -60,12 +62,17 @@ namespace Chess
                 direction = -1;
                 textColor = Color.Black;
             }
+            possMoves.Clear();
+            if (ValidSpot(row, col + direction) && board[row, col + direction].GetIsEmpty() == true)
+            {
+                CheckIfPossible(row, col + direction, board);
+            }
 
-            if (ValidSpot(row, col + direction) && board[row, col + direction].GetPiece() == null)
-                SetSpaceValid(row, col + direction);
             if ((team == "white" && col == 1) || (team == "black" && col == 6))
-                SetSpaceValid(row, col + (direction * 2));
-            
+            {
+                CheckIfPossible(row, col + direction * 2, board);
+            }
+
             if ((ValidSpot(row + 1, col + direction)) 
                 && (board[row + 1, col + direction].GetPiece() != null 
                 && board[row + 1, col + direction].GetPiece().GetTeam() != team))
